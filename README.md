@@ -1,15 +1,27 @@
+### 📝 Academic Project Abstract
+
+**Title:** Vulnerability Analysis of Transformer-Based Quantitative Trading Systems Against Adversarial Semantic Data Poisoning in the South Korean Equity Market
+
+**Abstract:**
+Modern algorithmic trading systems increasingly deploy natural language processing (NLP) transformers, such as FinBERT, to aggregate real-time retail sentiment from public forums (e.g., Naver Financial) to drive downstream sequential predictive engines (LSTMs). This paper exposes a critical security vulnerability in this pipeline through an adversarial Machine Learning (AML) data-poisoning framework. 
+
+By systematically injecting character-level Unicode token-breakers and specialized Korean market slang, we demonstrate that an adversary can blind the FinBERT tokenizer layer, tricking the downstream quantitative portfolio engine into executing value-destructive trades without tampering with core databases or trading infrastructure. 
+
+In a simulated 150-day market execution environment, the adversarial attack degraded the portfolio's Sharpe Ratio from -1.591 to -2.234 and induced an additional 9.25% in absolute capital losses. To counter this threat, we propose and validate an inline Semantic Guardrail utilizing string structural sanitization and vector-space cosine distance filtering against a baseline of verified financial journalism. The defensive architecture successfully detected the data poisoning, quarantined the malicious payloads, and recovered 11.06% of lost alpha, proving that semantic input security is vital for algorithmic market stability.
+
+
 # Adversarial Poisoning Attacks on NLP-Driven Quant Pipelines: Vulnerability Analysis and Defenses within the Korean Equity Market
 
 This repository contains the source code, attack frameworks, and defensive machine learning pipelines for my Final Year Project on Ethical Hacking and Quantitative Finance.
 
-## 🎯 Project Overview
+## Project Overview
 This project evaluates the security vulnerabilities of Natural Language Processing (NLP) models used in algorithmic trading. Specifically, we simulate a **Data Poisoning Attack** where an adversary deploys a semantic botnet on South Korean retail trading forums (e.g., Naver Financial, Paxnet) to manipulate the sentiment metrics feeding a quantitative trading engine. 
 
 The project demonstrates how minor text perturbations can trigger catastrophic financial miscalculations in trading algorithms, and proposes an enterprise-ready defense matrix to neutralize semantic malware.
 
 ---
 
-## 🔬 Research Core
+## Research Core
 
 ### 1. The Target Pipeline
 * **NLP Sentiment Aggregator:** A transformer model (**KoBERT/KoELECTRA**) fine-tuned on Korean financial slang, tracking macro signals and retail forum sentiment.
@@ -25,7 +37,7 @@ The project demonstrates how minor text perturbations can trigger catastrophic f
 
 ---
 
-## 🛠 Directory Layout
+## Directory Layout
 * `src/attack/` - Scripts generating adversarial text and simulating botnet injections.
 * `src/engine/` - The core KoBERT sentiment tokenizer, LSTM model, and backtesting suite.
 * `src/defense/` - Semantic embedding filters and portfolio circuit breakers.
@@ -33,7 +45,7 @@ The project demonstrates how minor text perturbations can trigger catastrophic f
 
 ---
 
-## ⚡ Quick Start (Local Setup)
+## Quick Start (Local Setup)
 
 ```bash
 # 1. Clone your repo after pushing
@@ -48,5 +60,5 @@ source .venv/bin/activate  # Windows: .venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-## ⚖️ Academic Disclaimer
+## Academic Disclaimer
 This project is built strictly for educational validation and security research under ethical hacking frameworks. It does not constitute financial advice, nor does it encourage live market manipulation.
