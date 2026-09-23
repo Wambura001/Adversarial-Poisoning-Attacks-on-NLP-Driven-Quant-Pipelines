@@ -2,6 +2,8 @@
 
 This repository contains the complete source code, adversarial ML frameworks, portfolio backtesters, and an inline defensive sanitization matrix developed for my Final Year Project in Ethical Hacking and Data Science.
 
+![image](assets/image.png)
+
 ---
 
 ## Core System Architecture & Threat Vector
