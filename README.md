@@ -1,64 +1,88 @@
-### 📝 Academic Project Abstract
+# Adversarial Data Poisoning on NLP-Driven Quant Pipelines: Vulnerabilities and Defenses in the Korean Equity Market
 
-**Title:** Vulnerability Analysis of Transformer-Based Quantitative Trading Systems Against Adversarial Semantic Data Poisoning in the South Korean Equity Market
-
-**Abstract:**
-Modern algorithmic trading systems increasingly deploy natural language processing (NLP) transformers, such as FinBERT, to aggregate real-time retail sentiment from public forums (e.g., Naver Financial) to drive downstream sequential predictive engines (LSTMs). This paper exposes a critical security vulnerability in this pipeline through an adversarial Machine Learning (AML) data-poisoning framework. 
-
-By systematically injecting character-level Unicode token-breakers and specialized Korean market slang, we demonstrate that an adversary can blind the FinBERT tokenizer layer, tricking the downstream quantitative portfolio engine into executing value-destructive trades without tampering with core databases or trading infrastructure. 
-
-In a simulated 150-day market execution environment, the adversarial attack degraded the portfolio's Sharpe Ratio from -1.591 to -2.234 and induced an additional 9.25% in absolute capital losses. To counter this threat, we propose and validate an inline Semantic Guardrail utilizing string structural sanitization and vector-space cosine distance filtering against a baseline of verified financial journalism. The defensive architecture successfully detected the data poisoning, quarantined the malicious payloads, and recovered 11.06% of lost alpha, proving that semantic input security is vital for algorithmic market stability.
-
-
-# Adversarial Poisoning Attacks on NLP-Driven Quant Pipelines: Vulnerability Analysis and Defenses within the Korean Equity Market
-
-This repository contains the source code, attack frameworks, and defensive machine learning pipelines for my Final Year Project on Ethical Hacking and Quantitative Finance.
-
-## Project Overview
-This project evaluates the security vulnerabilities of Natural Language Processing (NLP) models used in algorithmic trading. Specifically, we simulate a **Data Poisoning Attack** where an adversary deploys a semantic botnet on South Korean retail trading forums (e.g., Naver Financial, Paxnet) to manipulate the sentiment metrics feeding a quantitative trading engine. 
-
-The project demonstrates how minor text perturbations can trigger catastrophic financial miscalculations in trading algorithms, and proposes an enterprise-ready defense matrix to neutralize semantic malware.
+This repository contains the complete source code, adversarial ML frameworks, portfolio backtesters, and an inline defensive sanitization matrix developed for my Final Year Project in Ethical Hacking and Data Science.
 
 ---
 
-## Research Core
+## Core System Architecture & Threat Vector
 
-### 1. The Target Pipeline
-* **NLP Sentiment Aggregator:** A transformer model (**KoBERT/KoELECTRA**) fine-tuned on Korean financial slang, tracking macro signals and retail forum sentiment.
-* **Math Execution Engine:** A sequential Deep Learning (**LSTM**) model that processes historical market data alongside lagging news sentiment to forecast asset directional movements.
+This project exposes and remediates a critical security vulnerability found in algorithmic trading infrastructure that ingests unstructured alternative text data (e.g., Naver Financial boards, retail forums, or media channels) to generate alpha.
 
-### 2. The Offensive Vector (The Attack)
-* **Adversarial Perturbations:** Using rule-based NLP modifiers to subtly alter text syntax (e.g., replacing common Korean financial terms like "급등" with slang variants like "떡상", or embedding hidden Unicode characters). This misleads the transformer tokenization without raising human suspicion.
-* **Botnet Injection Simulation:** Flooding the input stream with adversarial data right before market open to artificially distort trading signals.
+The target system relies on a two-tier pipeline:
+1. **The NLP Sentiment Aggregator:** A transformer model (**FinBERT**) that maps textual strings into semantic market sentiment tensors.
+2. **The Predictive Execution Engine:** A sequential deep learning network (**LSTM**) that ingests lagging asset pricing vectors alongside the FinBERT sentiment matrices to predict direct trading signals.
 
-### 3. The Defensive Matrix (The Patch)
-* **Semantic Distance Filtering:** A pre-processing autoencoder layer that maps incoming string embeddings. If a post's syntax distance deviates from historically verified Korean financial journalism patterns, it is quarantined.
-* **Algorithmic Circuit Breakers:** A risk management feature built into the execution engine that halts automated trading on an asset if its 5-minute rolling sentiment variance spikes beyond a 3-standard-deviation threshold.
+### The Attack (Adversarial Data Poisoning)
+Rather than executing a traditional network breach, the adversary deploys an **Adversarial Machine Learning (AML)** data poisoning technique. By feeding strings embedded with **hidden Unicode zero-width space characters (`\u200b`)** and domain-specific **Korean financial market slang** (e.g., swapping standard corporate variables like `급등` or `매도` for retail forum tokens like `떡상` or `빤스런`), the attacker completely blinds the transformer's WordPiece tokenizer. 
 
----
+This causes FinBERT to misclassify high-impact positive market events as negative noise, causing the downstream LSTM to execute counter-productive trades.
 
-## Directory Layout
-* `src/attack/` - Scripts generating adversarial text and simulating botnet injections.
-* `src/engine/` - The core KoBERT sentiment tokenizer, LSTM model, and backtesting suite.
-* `src/defense/` - Semantic embedding filters and portfolio circuit breakers.
-* `main.py` - The execution gate to compare: (1) Clean Baseline Performance, (2) Poisoned Attack Performance, and (3) Defended Performance.
+### The Patch (Semantic Guardrail)
+To neutralize this threat, we implement an inline pre-processing filter called the **Semantic Guardrail**:
+* **Structural Cleansing:** A regular expression layer that identifies and strips out zero-width characters used to disrupt tokenizers.
+* **Vector-Space Distance Filtering:** A mathematical defense that extracts text embeddings and calculates the **Cosine Distance** against a centroid of historically verified, clean Korean financial journalism. Items exceeding the distance variance threshold are automatically quarantined.
 
 ---
 
-## Quick Start (Local Setup)
+## Empirical Metrics & Simulation Results
 
+During a continuous 100-day simulation tracking a volatile asset starting with an initial capital footprint of **₩50,000,000**, our pipeline recorded the following metrics:
+
+* **Clean Strategy Baseline:** Generated stable returns, capitalizing on accurate FinBERT semantic data streams.
+* **Poisoned Pipeline (Attacked State):** An infection rate of just 35% on incoming text streams resulted in a massive **-157.40% Loss Delta** compared to the baseline, significantly increasing risk exposure.
+* **Sanitized Pipeline (Protected State):** Activating the **Semantic Guardrail** successfully caught and quarantined the malicious data injections, recovering **+138.05% of the lost alpha** and restoring the system's capital trajectory.
+
+---
+
+## Project Directory Layout
+
+```text
+├── data/
+│   ├── raw/                  # Unmanipulated Korean news/forum data arrays
+│   └── poisoned/             # Data generated by your text perturbation scripts
+├── src/
+│   ├── attack/
+│   │   └── perturbation.py   # Token-breaker and slang substitution matrix engine
+│   ├── engine/
+│   │   └── backtester.py     # Portfolio metric tracking script (Sharpe Ratio, MDD)
+│   └── defense/
+│       └── distance_filter.py# Structural cleaner and Cosine Distance filter
+├── app.py                    # Interactive Streamlit Web Interface Dashboard
+├── main.py                   # Master core execution orchestration gateway
+└── requirements.txt          # Python ecosystem environment dependencies
+```
+
+---
+
+## Setup & Execution Guide
+
+Follow these steps to run the complete environment locally on your machine via VS Code:
+
+### 1. Environment Preparation
+Ensure your Python version is at least 3.8, then set up an isolated virtual environment and install the required libraries:
 ```bash
-# 1. Clone your repo after pushing
-git clone https://github.com
-cd YOUR-NEW-REPO-NAME
-
-# 2. Setup environment
+# Initialize and activate the virtual environment sandbox
 python -m venv .venv
-source .venv/bin/activate  # Windows: .venv\Scripts\activate
+source .venv/bin/activate  # Windows (Command Prompt): .venv\Scripts\activate.bat
 
-# 3. Install requirements
+# Install all mandatory package dependencies
 pip install -r requirements.txt
 ```
 
-## Academic Disclaimer
-This project is built strictly for educational validation and security research under ethical hacking frameworks. It does not constitute financial advice, nor does it encourage live market manipulation.
+### 2. Running the Terminal Pipeline
+To see the step-by-step terminal logs showing how strings are manipulated, audited, and backtested, run the master script:
+```bash
+python main.py
+```
+
+### 3. Launching the Interactive Web Interface Dashboard
+To launch the frontend dashboard for presentation demonstrations or review panels, start the interactive web application:
+```bash
+python -m streamlit run app.py
+```
+This command spins up a secure local server environment and automatically opens the interactive UI in your default web browser at **`http://localhost:8501`**.
+
+---
+
+## Academic Research Disclaimer
+This repository is built strictly for educational validation and security research under academic grading frameworks. It does not constitute financial advice, nor does it encourage live market manipulation on active digital asset exchanges.
